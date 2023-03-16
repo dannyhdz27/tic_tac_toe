@@ -1,5 +1,6 @@
 const gameState = {
   playerName: ["x", "o"],
+  inputName: [" "," "]
   board: [
     [null, null, null],
     [null, null, null],
@@ -121,14 +122,15 @@ board.addEventListener("click", (event) => {
     gameState.board[row][column] = "X";
     event.target.innerText = "X";
     event.target.classList.add("X");
+    checkWin();
+    checkTie();
     gameState.currentPlayeridx = 1;
   } else if (gameState.playerName[gameState.currentPlayeridx] === "o") {
     gameState.board[row][column] = "O";
     event.target.innerText = "O";
     event.target.classList.add("O");
+    checkWin();
+    checkTie();
     gameState.currentPlayeridx = 0;
   }
-
-  checkWin();
-  checkTie();
 });
