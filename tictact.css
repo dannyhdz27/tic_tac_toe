@@ -1,4 +1,4 @@
-body {
+.centerboard {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,6 +17,10 @@ body {
 .board div:nth-of-type(2n) {
   background-color: rgb(198, 198, 198);
 }
+/* .scoreboard {
+  display: flex;
+  justify-content: space-around;
+} */
 
 .X {
   font-size: 100px;
