@@ -8,6 +8,7 @@ const gameState = {
   ],
   wins: [0, 0],
   currentPlayeridx: 0,
+  computerPlayer: 0,
 };
 
 const board = document.querySelector(".board");
@@ -21,34 +22,39 @@ for (let i = 0; i < 3; i++) {
   }
 }
 
+//computer player
+const computerPlayer = document.querySelector(".singlePlayerButton");
+computerPlayer.addEventListener("click", function () {
+  gameState.computerPlayer = 1;
+  gameState.inputName[1] = "Computer";
+  playerTwoDisplay.innerText = "Computer";
+});
+
 //player inputs
 const playerOneForm = document.querySelector(".playerOneForm");
 const playerOneInput = document.querySelector(".playerOneInput");
 const xPlayer = document.querySelector(".xPlayer");
+const playerOneDisplay = document.createElement("span");
 
-// const playerTwo = document.querySelector(".playerTwo");
 const playerTwoForm = document.querySelector(".playerTwoForm");
 const playerTwoInput = document.querySelector(".playerTwoInput");
 const oPlayer = document.querySelector(".oPlayer");
+const playerTwoDisplay = document.createElement("span");
 
 playerOneForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const playerOneDisplay = document.createElement("span");
   playerOneDisplay.innerText = playerOneInput.value;
   xPlayer.appendChild(playerOneDisplay);
   gameState.inputName[0] = playerOneInput.value;
-  // playerOneDisplay.innerText = playerOneInput.value;
 });
 
 playerTwoForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const playerTwoDisplay = document.createElement("span");
   playerTwoDisplay.innerText = playerTwoInput.value;
   oPlayer.appendChild(playerTwoDisplay);
   gameState.inputName[1] = playerTwoInput.value;
-  // playerOneDisplay.innerText = playerOneInput.value;
 });
 
 let xScore = document.querySelector(".xScore");
@@ -105,7 +111,8 @@ function checkWin() {
   }
   if (hasWon) {
     let playerName = gameState.playerName[gameState.currentPlayeridx];
-    playerText.innerText = gameState.inputName + " wins!";
+    playerText.innerText =
+      gameState.inputName[gameState.currentPlayeridx] + " wins!";
     gameState.wins[gameState.currentPlayeridx]++;
     updateScore();
     resetGame();
@@ -125,17 +132,23 @@ function checkTie() {
 }
 
 const resetButton = document.querySelector(".resetButton");
-resetButton.addEventListener("click", resetGame);
+resetButton.addEventListener("click", fullReset);
 
-//Reset Game
-function resetGame() {
+//reset entire page/all values
+function fullReset() {
   gameState.board = [
     [null, null, null],
     [null, null, null],
     [null, null, null],
   ];
-
-  // gameState.wins = [0, 0];
+  playerOneDisplay.innerText = "";
+  playerTwoDisplay.innerText = "";
+  gameState.inputName = ["", ""];
+  gameState.wins = [0, 0];
+  playerText.innerText = "";
+  gameState.currentPlayeridx = 0;
+  xScoreDisplay.innerText = "";
+  oScoreDisplay.innerText = "";
 
   const allDivs = document.querySelectorAll("div");
   allDivs.forEach((xClass) => {
@@ -151,18 +164,33 @@ function resetGame() {
   });
 }
 
-//reset scorboard
-// function resetScore() {
-//   gameState.wins = [0, 0];
-// }
+//Reset Game
+function resetGame() {
+  gameState.board = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+  ];
+
+  const allDivs = document.querySelectorAll("div");
+  allDivs.forEach((xClass) => {
+    xClass.classList.remove("X");
+  });
+  allDivs.forEach((oClass) => {
+    oClass.classList.remove("O");
+  });
+
+  cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.innerText = "";
+  });
+}
 
 const displayWinner = document.querySelector(".displayWinner");
 const playerText = document.createElement("p");
 displayWinner.appendChild(playerText);
 
 board.addEventListener("click", (event) => {
-  // console.log(gameState);
-
   const row = event.target.id[0];
   const column = event.target.id[2];
 
