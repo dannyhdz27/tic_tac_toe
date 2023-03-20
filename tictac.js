@@ -21,21 +21,53 @@ for (let i = 0; i < 3; i++) {
   }
 }
 
+//player inputs
+const playerOneForm = document.querySelector(".playerOneForm");
+const playerOneInput = document.querySelector(".playerOneInput");
+const xPlayer = document.querySelector(".xPlayer");
+
+// const playerTwo = document.querySelector(".playerTwo");
+const playerTwoForm = document.querySelector(".playerTwoForm");
+const playerTwoInput = document.querySelector(".playerTwoInput");
+const oPlayer = document.querySelector(".oPlayer");
+
+playerOneForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const playerOneDisplay = document.createElement("span");
+  playerOneDisplay.innerText = playerOneInput.value;
+  xPlayer.appendChild(playerOneDisplay);
+  gameState.inputName[0] = playerOneInput.value;
+  // playerOneDisplay.innerText = playerOneInput.value;
+});
+
+playerTwoForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const playerTwoDisplay = document.createElement("span");
+  playerTwoDisplay.innerText = playerTwoInput.value;
+  oPlayer.appendChild(playerTwoDisplay);
+  gameState.inputName[1] = playerTwoInput.value;
+  // playerOneDisplay.innerText = playerOneInput.value;
+});
+
+let xScore = document.querySelector(".xScore");
+const xScoreDisplay = document.createElement("span");
+xScore.appendChild(xScoreDisplay);
+
+let oScore = document.querySelector(".oScore");
+const oScoreDisplay = document.createElement("span");
+oScore.appendChild(oScoreDisplay);
+
 function updateScore() {
-  let xScore = document.querySelector(".xScore");
-  const xScoreDisplay = document.createElement("span");
-  xScore.appendChild(xScoreDisplay);
   xScoreDisplay.innerText = gameState.wins[0];
 
-  let oScore = document.querySelector(".oScore");
-  const oScoreDisplay = document.createElement("span");
-  oScore.appendChild(oScoreDisplay);
   oScoreDisplay.innerText = gameState.wins[1];
 }
 
 function checkWin() {
   let hasWon = false;
-  // Check rows for a win
+
   for (let i = 0; i < 3; i++) {
     if (
       gameState.board[i][0] !== null &&
@@ -46,7 +78,6 @@ function checkWin() {
     }
   }
 
-  // Check columns for a win
   for (let i = 0; i < 3; i++) {
     if (
       gameState.board[0][i] !== null &&
@@ -57,7 +88,6 @@ function checkWin() {
     }
   }
 
-  // Check diagonals for a win
   if (
     gameState.board[0][0] !== null &&
     gameState.board[0][0] === gameState.board[1][1] &&
@@ -75,7 +105,7 @@ function checkWin() {
   }
   if (hasWon) {
     let playerName = gameState.playerName[gameState.currentPlayeridx];
-    playerText.innerText = `${playerName} wins`;
+    playerText.innerText = gameState.inputName + " wins!";
     gameState.wins[gameState.currentPlayeridx]++;
     updateScore();
     resetGame();
@@ -105,7 +135,7 @@ function resetGame() {
     [null, null, null],
   ];
 
-  gameState.wins = [0, 0];
+  // gameState.wins = [0, 0];
 
   const allDivs = document.querySelectorAll("div");
   allDivs.forEach((xClass) => {
@@ -121,9 +151,14 @@ function resetGame() {
   });
 }
 
-let player = document.querySelector(".currentPlayer");
+//reset scorboard
+// function resetScore() {
+//   gameState.wins = [0, 0];
+// }
+
+const displayWinner = document.querySelector(".displayWinner");
 const playerText = document.createElement("p");
-player.appendChild(playerText);
+displayWinner.appendChild(playerText);
 
 board.addEventListener("click", (event) => {
   // console.log(gameState);
@@ -131,7 +166,10 @@ board.addEventListener("click", (event) => {
   const row = event.target.id[0];
   const column = event.target.id[2];
 
-  if (gameState.playerName[gameState.currentPlayeridx] === "x") {
+  if (
+    gameState.playerName[gameState.currentPlayeridx] === "x" &&
+    gameState.board[row][column] === null
+  ) {
     gameState.board[row][column] = "X";
     event.target.innerText = "X";
     event.target.classList.add("X");
@@ -139,7 +177,10 @@ board.addEventListener("click", (event) => {
     checkTie();
 
     gameState.currentPlayeridx = 1;
-  } else if (gameState.playerName[gameState.currentPlayeridx] === "o") {
+  } else if (
+    gameState.playerName[gameState.currentPlayeridx] === "o" &&
+    gameState.board[row][column] === null
+  ) {
     gameState.board[row][column] = "O";
     event.target.innerText = "O";
     event.target.classList.add("O");

@@ -9,26 +9,36 @@
     <script defer src="tictac.js"></script>
   </head>
   <body>
-    <p>Enter Player 1 name</p>
-    <input type="text" />
-    <button>submit</button>
-    <p>Enter Player 2 name</p>
-    <input type="text" />
-    <button>submit</button>
-    <p></p>
-    <div class="resetButton"><button>reset board</button></div>
+    <div class="scoreboard">
+      <div class="nameInput">
+        <form class="playerOneForm">
+          <p>Enter Player 1 name</p>
+          <input class="playerOneInput" type="text" />
+          <button>submit</button>
+        </form>
 
-    <div class="centerboard">
-      <h1>Tic Tac Toe</h1>
-      <div class="board"></div>
-      <div class="currentPlayer">
-        <h1>Player:</h1>
+        <form class="playerTwoForm">
+          <p>Enter Player 2 name</p>
+          <input class="playerTwoInput" type="text" />
+          <button>submit</button>
+        </form>
+        <p></p>
+        <div class="resetButton"><button>reset board</button></div>
       </div>
-      <h1>Score:</h1>
-      <div class="scoreboard">
+
+      <div class="displayWinner"></div>
+      <div class="currentPlayer">
+        <h1>Players:</h1>
+        <p class="xPlayer">X:&nbsp;</p>
+        <p class="oPlayer">O:&nbsp;</p>
+        <h1>Score:</h1>
         <p class="xScore">X Wins:</p>
         <p class="oScore">O Wins:</p>
       </div>
+    </div>
+    <div class="centerboard">
+      <h1>Tic Tac Toe</h1>
+      <div class="board"></div>
     </div>
   </body>
 </html>
